@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset ="utf-8">
+    <title>单次dao触发示例</title>
+</head>
+<body>
+<div id="div1">=== 点击这里触dao发 ===</div>
+<script>
+    document.getElementById("div1").onclick = f;
+    function f() {
+        alert('第一次触发！');
+        document.getElementById("div1").onclick = '';
+    }
+</script>
+</body>
+</html>

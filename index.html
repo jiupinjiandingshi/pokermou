@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+       html,body{
+            width: 100%;
+            height: 100%;
+            display: flex;
+           align-items: center;
+           justify-content: center;
+           position: relative;
+           perspective: 500px;
+           background:url("pocks/back.jpg")no-repeat center/cover;
+
+        }
+        #wrap{
+            /*background:url("pocks/back.jpg")no-repeat center/cover;*/
+            width: 100%;
+            height: 100%;
+            border: 1px solid;
+            display: flex;
+            /*align-items: center;*/
+            justify-content:center;
+            transform-style: preserve-3d;
+
+        }
+       .mbox{
+           position: absolute;
+           display: flex;
+           width: 1000px;
+           height: 220px;
+           justify-content: center;
+           visibility: hidden;
+           top: 600px;
+
+          }
+       .ybox{
+           position: absolute;
+           display: flex;
+           width: 1000px;
+           height: 220px;
+           justify-content: center;
+           visibility: hidden;
+       }
+        .box2{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            margin: 20px;
+            width: 120px;
+            height: 200px;
+            background-color: lightblue;
+        }
+        .box2 img{
+            width: 100%;
+            height: 100%;
+        }
+        .box{
+
+            margin-top: 10px;
+            margin-left: 60px;
+            width: 120px;
+            height: 200px;
+
+        }
+
+        #btn{
+            position: absolute;
+            left: 40%;
+            top: 50%;
+        }
+       #btn1{
+           position: absolute;
+           left: 60%;
+           top: 50%;
+       }
+       #btn2{
+           position: absolute;
+           left: 50%;
+           top: 50%;
+       }
+       #btn3{
+           position: absolute;
+           left: 50%;
+           top: 40%;
+       }
+        .box img{
+            width: 100%;
+            height: 100%;
+        }
+        @keyframes mayrotate {
+            0%{transform: scale(0,0);}
+            50%{transform: scale(1.3,1.3);}
+            100%{transform: scale(1,1);}
+        }
+        @keyframes musicRotate {
+            0%{transform:rotate3d(0,0,1,0);}
+            50%{transform: rotate3d(0,0,1,180deg);}
+            100%{transform:rotate3d(0,0,1,360deg);}
+        }
+        .bigbox{
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display:none;
+            font-size: 80px;
+            line-height: 300px;
+            text-align: center;
+            position: fixed;
+            align-items: center;
+            justify-content: center;
+        }
+       #cx{
+           width: 200px;
+           height: 40px;
+           position: absolute;
+           top: 60%;
+
+       }
+        .rulebox{
+            width: 60%;
+            height: 300px;
+            background-color: white;
+            display: none;
+            font-weight: bold;
+            align-items: center;
+            justify-content: center;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+            <div class="box2"><img src="pocks/53.jpg" alt=""></div>
+            <div id="mics" style="width: 53px;height: 53px;position: absolute;left: 60px;top: 340px">
+                <img src="pocks/music.jpg" onclick="playm()" alt="" style="width: 50px;height: 50px;">
+            </div >
+            <div id="smic" style="width: 53px;height: 53px">
+            <img src="pocks/stop.png" onclick="stopplay()" alt="" style="width: 50px;height: 50px;position: absolute;left: 60px;top: 440px">
+            </div>
+            <audio src="111.mp3" id="music" controls="controls" loop="false" hidden="true" ></audio>
+            <button id="btn" onclick="start1()">你的牌</button>
+            <button id="btn1" onclick="start()">对手牌</button>
+            <button id="btn2" onclick="agin()">洗牌</button>
+            <button  id="btn3" onclick="rulses()">决胜负</button>
+            <div class="mbox"> </div>
+            <div class="ybox"> </div>
+    </div>
+    <div class="bigbox">
+        <div class="rulebox"></div>
+        <button onclick="gb()" id="cx" style="display: none;">关闭</button>
+    </div>
+<script>
+
+
+
+
+
+    var btn=document.getElementById('btn');
+    var wrap=document.getElementById('wrap');
+    var youbox = document.getElementsByClassName('ybox')[0];
+    var mybox=wrap.getElementsByClassName('mbox')[0];
+    var index;
+    var flag=true;
+    var flag1=true;
+    var y=[];
+    var z=[];
+    var bigbox=document.getElementsByClassName('bigbox')[0];
+    var rulebox=document.getElementsByClassName('rulebox')[0];
+    var fisrt=document.getElementById('cx');
+    var mics=document.getElementById('mics');
+    var sicm=document.getElementById('sicm');
+
+//    Array.prototype.mywash = function () {
+//        var index;
+//        var pick;
+//        var _this = JSON.parse(JSON.stringify(this));
+//        for (var i = _this.length - 1; i >0; i--) {
+//            index = parseInt(Math.random() * i);
+//            pick = _this[index];
+//            _this[index] = _this[i];
+//            _this[i] = pick;
+//        }
+//        return _this;
+//    };
+    /*发我的牌*/
+    function start() {
+        youbox.innerHTML = '';
+        youbox.style.visibility='visible';
+
+        if (flag) {
+
+            for (i = 1; i <= 5; i++) {
+                var mypick = document.createElement("div");
+                var img = document.createElement("img");
+                mypick.className = 'box';
+                index = Math.floor(Math.random() * 52) + 1;
+                console.log(index);
+                img.src = "pocks/" + index + ".jpg";
+                mypick.appendChild(img);
+               youbox.appendChild(mypick);
+                wrap.appendChild(youbox);
+                mypick.style.animation=" mayrotate 2s linear ";
+                y[y.length]=index;
+            }
+            btn1.style.display='none';
+            flag=false;
+
+        }
+
+
+    }
+/*发你的牌*/
+    function start1() {
+        mybox.innerHTML = '';
+        mybox.style.visibility='visible';
+        if (flag1) {
+            for (i = 1; i <= 5; i++) {
+                var mypick = document.createElement("div");
+                var img = document.createElement("img");
+                mypick.className = 'box';
+                index = Math.floor(Math.random() * 52) + 1;
+                img.src = "pocks/" + index + ".jpg";
+                mypick.appendChild(img);
+                mybox.appendChild(mypick);
+                wrap.appendChild(mybox);
+                mypick.style.animation=" mayrotate 2s linear ";
+                z[z.length]=index;
+            }
+
+        }
+        flag1=false;
+        btn.style.display='none';
+    }
+    /*洗牌*/
+    function  agin() {
+        if(!flag) {
+            wrap.removeChild(youbox);
+            y=[];
+            flag = true;
+
+        }
+            if(!flag1) {
+                wrap.removeChild(mybox);
+                z=[];
+                flag1 = true;
+                btn.style.display='block';
+                btn1.style.display='block';
+            }
+
+    }
+/*计算结果*/
+    function rulses() {
+        var meShiffte = getRulsesVal(z);
+        var yourShiffte = getRulsesVal(y);
+        //console.log(meShiffte);
+        //console.log(yourShiffte);
+        var mysorcue=math(meShiffte);
+        var yoursorcue=math(yourShiffte);
+        if(!mysorcue) {
+            mysorcue=0;
+        }
+        if(!yoursorcue){
+            yoursorcue=0;
+
+        }
+        if(mysorcue>yoursorcue){
+            rulebox.innerHTML='你赢了！';
+        }else if(yoursorcue>mysorcue){
+           rulebox.innerHTML='这都能输?';
+        }else {
+            rulebox.innerHTML='平局再来！';
+        }
+        bigbox.style.display='flex';
+        rulebox.style.display='flex';
+        fisrt.style.display='block';
+       z=[];
+       y=[];
+
+    }
+
+    function getRulsesVal(arr) {
+        /*整理我的牌*/
+        for(h=0;h<arr.length;h++){
+            arr[h]=arr[h]%13;
+            if(arr[h]>10){
+                arr[h]=10;
+             }else if(arr[h]==0){
+                arr[h]=10;
+            }
+        }
+        return arr
+
+    }
+    function math(r) {
+        var num = 0;
+
+        for(var a=0;a<r.length;a++){
+            for ( var b=0;b<r.length;b++){
+                if( a== b) {
+                    continue
+                } else {
+                    for (var d=0;d<r.length;d++){
+                        if(a!=d&&b!=d) {
+                            if((r[a]+r[b]+r[d])%10==0){
+                                r.splice(a,1);
+                                r.splice(b-1,1);
+                                r.splice(d-2,1);
+                                num=(r[0]+r[1])%10;
+                                //console.log(num);
+                                 if(num==0){
+                                    return 10;
+                                }else{
+                                    return num;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function gb() {
+        bigbox.style.display='none';
+        cx.style.display='none';
+        flag = true;
+        flag1 = true;
+        wrap.removeChild(youbox);
+        wrap.removeChild(mybox);
+        btn.style.display='block';
+        btn1.style.display='block';
+    }
+    function playm() {
+        var myauto = document.getElementById('music');
+
+        mics.style.animation='musicRotate 5s linear infinite';
+        myauto.play();
+    }
+    function stopplay() {
+        var myauto=document.getElementById('music');
+        mics.style.animationPlayState='paused';
+        myauto.pause();
+        myauto.load();
+    }
+</script>
+</body>
+</html>
